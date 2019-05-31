@@ -15,8 +15,10 @@ var headers = {
 	}
 };
 
+// PLACEHOLDER FOR ACTUAL HEADERS FROM PAGE
 var arrayOfThText = ['Pickup', 'Drop Off', 'Load Number'];
 
+// GET POSITION OF THE DESIRED HEADERS
 Object.keys(headers).forEach((keyName) => {
 	var keyPosition = arrayOfThText.findIndex((element) => {
 		return headers[keyName].test.test(element);
@@ -24,15 +26,17 @@ Object.keys(headers).forEach((keyName) => {
 	headers[keyName].position = keyPosition;
 })
 
-
+// PLACEHOLDER FOR TABLE VALUES FROM PAGE
 var arrayOfTrs = [
 	['Phoenix', 'Fontana', '12345'],
 	['Phoenix', 'Fontana', '12346'],
 	['Phoenix', 'Fontana', '12347']
 ];
 
+// VAR TO RECEIVE PARSED CONTENTS OF TABLE
 var tableContents = [];
 
+// PARSE EACH ROW
 arrayOfTrs.forEach((htmlTableRow) => {
 	var parsedTableRow = {};
 	Object.keys(headers).forEach((keyName) => {
