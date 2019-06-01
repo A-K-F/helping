@@ -2,33 +2,23 @@
 
 'use strict';
 
+// GET TABLE NODE
 var table5 = document.querySelectorAll('table')[5].querySelector('tbody');
 
-var tableHeadRow = table5.querySelectorAll('th');
-
-var tableHeadRowData = []
-
-tableHeadRow.forEach((cell) => {tableHeadRowData.push(cell.innerText);});
+// EXTRACT TABLE HEADERS
+var tableHeadRowData = Object.values(table5.querySelectorAll('th')).map((cell) => {return cell.innerText;});
 
 console.log('--------------------');
 console.log('tableHeadRowData');
 console.log(tableHeadRowData);
 console.log('--------------------');
 
-var tableRows = table5.querySelectorAll('tr');
-
-console.log('tableRows');
-console.log(tableRows);
-console.log('--------------------');
-
-var tableRowData = [];
-
-tableRows.forEach((row) => {
-	if (!!row.querySelector('th')) {return;}
-	var rowData = [];
-	row.querySelectorAll('td').forEach((cell) => {rowData.push(cell.innerText);});
-	tableRowData.push(rowData);
-})
+// EXTRACT TABLE DATA FROM NODES
+var tableRowData = Object.values(table5.querySelectorAll('tr')).reduce((accumuator, row) => {
+	if (!!row.querySelector('th')) {return accumuator}
+	accumuator.push(Object.values(row.querySelectorAll('td')).map((cell) => {return cell.innerText;}));
+	return accumuator;
+}, []);
 
 console.log('tableRowData');
 console.log(tableRowData);
@@ -53,16 +43,13 @@ Object.keys(headers).forEach((keyName) => {
 	headers[keyName].position = keyPosition;
 })
 
-// VAR TO RECEIVE PARSED CONTENTS OF TABLE
-var tableContents = [];
-
-// PARSE EACH ROW
-tableRowData.forEach((htmlTableRow) => {
+// PARSE ROW ARRAYS INTO OBJECTS
+var tableContents = tableRowData.map((htmlTableRow) => {
 	var parsedTableRow = {};
 	Object.keys(headers).forEach((keyName) => {
 		parsedTableRow[keyName] = htmlTableRow[headers[keyName].position];
 	});
-	tableContents.push(parsedTableRow);
+	return parsedTableRow;
 })
 
 console.log(tableContents);
